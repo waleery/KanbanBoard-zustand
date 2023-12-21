@@ -1,10 +1,15 @@
-import React from 'react'
-import './Column.css'
 
-const Column = ({state}) => {
-  return (
-    <div className='column'>{state}</div>
-  )
-}
+import "./Column.css";
+import Task from "./Task";
 
-export default Column
+const Column = ({ state }) => {
+    return (
+        <div className="column">
+            <p>{state}</p>
+            <Task title="Todo" />
+        </div>
+    );
+};
+
+
+export default Column;
