@@ -1,11 +1,15 @@
 import "./Column.css";
 import Task from "./Task";
 import { useStore } from "../store";
+import { useState } from "react";
 
 //import { useMemo } from "react";
 //import { shallow } from "zustand/shallow";
 
 const Column = ({ state }) => {
+    const [text, setText] = useState("");
+    const [openModal, setOpenModal] = useState(false);
+
     //when only 'tasks' changes this component will rerender
 
     const tasks = useStore(
@@ -37,10 +41,35 @@ const Column = ({ state }) => {
     //     [tasks, title]
     // );
 
+    const addTask = useStore((store) => store.addTask);
     return (
         <div className="column">
-            <p>{state}</p>
-            {tasks.map((task) => <Task title={task.title} key={task.title} />)}
+            <div className="titleWrapper">
+                <p>{state}</p>
+                <button onClick={() => setOpenModal(true)}>Add</button>
+            </div>
+            {tasks.map((task) => (
+                <Task title={task.title} key={task.title} />
+            ))}
+            {openModal && (
+                <div className="modal">
+                    <div className="modalContent">
+                        <input
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                        />
+                        <button
+                            onClick={() => {
+                                addTask(text, state);
+                                setText("");
+                                setOpenModal(false);
+                            }}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
