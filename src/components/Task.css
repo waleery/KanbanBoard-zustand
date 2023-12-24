@@ -33,3 +33,12 @@
     background: var(--COLOR-DONE);
 
 }
+.deleteIcon{
+    display: block;
+    margin: auto 0;
+}
+
+.task img{
+    height: 1rem;
+
+}
