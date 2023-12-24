@@ -8,15 +8,17 @@ const Task = ({ title }) => {
         store.tasks.find((task) => task.title === title)
     );
 
-    const deleteTask = useStore((store) => store.deleteTask) 
+    const deleteTask = useStore((store) => store.deleteTask);
 
     return (
         <div className="task">
             <div>{task.title}</div>
             <div className="bottomWrapper">
-                <div className="deleteIcon">
-                    <img src={trashIcon} alt="delete-icon" onClick={() =>deleteTask(task.title)}/>
-                </div>
+                <img
+                    src={trashIcon}
+                    alt="delete-icon"
+                    onClick={() => deleteTask(task.title)}
+                />
                 <div className={classNames("status", task.state)}>
                     {task.state}
                 </div>

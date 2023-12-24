@@ -13,6 +13,7 @@
 .bottomWrapper{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .status{
@@ -33,12 +34,7 @@
     background: var(--COLOR-DONE);
 
 }
-.deleteIcon{
-    display: block;
-    margin: auto 0;
-}
 
 .task img{
     height: 1rem;
-
 }
