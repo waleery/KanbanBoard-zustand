@@ -40,10 +40,22 @@ const Column = ({ state }) => {
     //     () => tasks.filter((task) => task.status === title),
     //     [tasks, title]
     // );
-
     const addTask = useStore((store) => store.addTask);
+    const setDraggedTask = useStore((store) => store.setDraggedTask)
+    const draggedTask = useStore((store) => store.draggedTask)
+    const moveTask = useStore((store) => store.moveTask)
+
     return (
-        <div className="column">
+        <div
+            className="column"
+            onDragOver={(e) => {
+                e.preventDefault();
+            }}
+            onDrop={() => {
+                setDraggedTask(null)
+                moveTask(draggedTask, state)
+            }}
+        >
             <div className="titleWrapper">
                 <p>{state}</p>
                 <button onClick={() => setOpenModal(true)}>Add</button>
