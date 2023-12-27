@@ -2,6 +2,7 @@ import "./Column.css";
 import Task from "./Task";
 import { useStore } from "../store";
 import { useState } from "react";
+import classNames from "classnames";
 
 //import { useMemo } from "react";
 //import { shallow } from "zustand/shallow";
@@ -9,6 +10,7 @@ import { useState } from "react";
 const Column = ({ state }) => {
     const [text, setText] = useState("");
     const [openModal, setOpenModal] = useState(false);
+    const [drop, setDrop] = useState(false)
 
     //when only 'tasks' changes this component will rerender
 
@@ -47,11 +49,17 @@ const Column = ({ state }) => {
 
     return (
         <div
-            className="column"
+            className={classNames("column", {drop: drop})}
             onDragOver={(e) => {
+                setDrop(true)
+                e.preventDefault();
+            }}
+            onDragLeave={(e) => {
+                setDrop(false)
                 e.preventDefault();
             }}
             onDrop={() => {
+                setDrop(false)
                 setDraggedTask(null)
                 moveTask(draggedTask, state)
             }}
