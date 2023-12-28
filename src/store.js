@@ -1,6 +1,6 @@
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
-import {devtools} from 'zustand/middleware'
+import {devtools, persist} from 'zustand/middleware'
 
 const store = (set) => ({
     tasks: [
@@ -30,7 +30,7 @@ const store = (set) => ({
 console.log(store)
 
 // https://github.com/pmndrs/zustand/discussions/1937
-export const useStore = createWithEqualityFn(devtools(store, shallow));
+export const useStore = createWithEqualityFn(persist(devtools(store, shallow), {name:"store"}));
 
 //When we need custom compare function then second argument is 'Object.is'
 //export const useStore = createWithEqualityFn(store, Object.is);
