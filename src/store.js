@@ -38,8 +38,27 @@ const store = (set) => ({
         ),
 });
 
-//custom middleware to log every state change
+// const logWithGetData = (config) => (set, get, api) =>
+//     config(
+//         (...args) => {
 
+//             const current = get()
+//             if(!current) {
+//                 //get state from external source
+//             }
+
+//             console.log("%c   current state", "color:#3366ff", get());
+//             console.log("%c   applying", "color: #ccff33", args);
+//             set(...args);
+//             console.log("%c   new state", "color:#33ff66", get());
+
+//         },
+//         get,
+//         api
+//     );
+
+
+//custom middleware to log every state change
 //config is a way to manipulate the existing setters, getters and api
 const log = (config) => (set, get, api) =>
     config(
@@ -57,9 +76,12 @@ const log = (config) => (set, get, api) =>
         api
     );
 
+    
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
     log(persist(devtools(store, shallow), { name: "store" }))
+
+    //logWithGetData(devtools(store, shallow))
 );
 
 //When we need custom compare function then second argument is 'Object.is'
