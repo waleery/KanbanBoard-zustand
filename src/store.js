@@ -63,6 +63,7 @@ const store = (set) => ({
 const log = (config) => (set, get, api) =>
     config(
         (...args) => {
+            console.log("%c START log middleware ------------- ", "color:red")
             console.log("%c   current state", "color:#3366ff", get());
             console.log("%c   applying", 'color: #ccff33', args);
             set(...args);
@@ -71,12 +72,15 @@ const log = (config) => (set, get, api) =>
             // console.log(set, "set");
             // console.log(get, "get");
             // console.log(api, "api");
+
+            console.log("%c END   log middleware ------------- ", "color:red")
+
         },
         get,
         api
     );
 
-    
+
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
     log(persist(devtools(store, shallow), { name: "store" }))
