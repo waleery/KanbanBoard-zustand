@@ -9,12 +9,13 @@ const store = (set) => ({
     ],
     draggedTask: null,
     addTask: (title, state) =>
-        set((store) => ({ tasks: [...store.tasks, { title, state }] })),
+        // false/true tells zustand to just manipulate or replace object in store
+        set((store) => ({ tasks: [...store.tasks, { title, state }] }), false, "addTask"),
     deleteTask: (title) =>
         set((store) => ({
             tasks: store.tasks.filter((task) => task.title !== title),
-        })),
-    setDraggedTask: (title) => set({ draggedTask: title }),
+        }), false, "deleteTask"),
+    setDraggedTask: (title) => set({ draggedTask: title }, false, "setDraggedTask"),
     moveTask: (title, state) =>
         set((store) => ({
             tasks: store.tasks.map((task) => {
@@ -24,8 +25,9 @@ const store = (set) => ({
                     return task;
                 }
             }),
-        })),
+        }), false, "moveTask"),
 });
+console.log(store)
 
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(devtools(store, shallow));
