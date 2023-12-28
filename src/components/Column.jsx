@@ -43,7 +43,6 @@ const Column = ({ state }) => {
         //     return true
         // }
     );
-    console.log(tasks)
     const addTask = useStore((store) => store.addTask);
     const setDraggedTask = useStore((store) => store.setDraggedTask);
     const draggedTask = useStore((store) => store.draggedTask);
