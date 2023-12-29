@@ -57,7 +57,6 @@ const store = (set) => ({
 //         api
 //     );
 
-
 //custom middleware to log every state change
 //config is a way to manipulate the existing setters, getters and api
 const log = (config) => (set, get, api) =>
@@ -65,21 +64,19 @@ const log = (config) => (set, get, api) =>
         (...args) => {
             console.log("%c START log middleware ------------- ", "color:red")
             console.log("%c   current state", "color:#3366ff", get());
-            console.log("%c   applying", 'color: #ccff33', args);
+            console.log("%c   applying", "color: #ccff33", args);
             set(...args);
-            console.log("%c   new state", "color:#33ff66", get());
-
+            console.log("%c   current state", "color:#3366ff", get());
+            
             // console.log(set, "set");
             // console.log(get, "get");
             // console.log(api, "api");
 
-            console.log("%c END   log middleware ------------- ", "color:red")
-
+            console.log("%c END   log middleware ------------- ", "color:red");
         },
         get,
         api
     );
-
 
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
