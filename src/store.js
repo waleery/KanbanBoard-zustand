@@ -5,7 +5,8 @@ import { devtools, persist } from "zustand/middleware";
 const store = (set) => ({
     tasks: [],
     draggedTask: null,
-    addTask: (title, state) =>
+    
+    addTask: async(title, state) =>
         // false/true tells zustand to just manipulate or replace object in store
         set(
             (store) => ({ tasks: [...store.tasks, { title, state }] }),
