@@ -52,9 +52,12 @@ test("should add an items to the store, delete item and rerun the effect", () =>
     });
 
     let createdTaks = false;
+    let currentItems
 
     const effect = vi.fn().mockImplementation((items) => {
-        console.log(items.tasks);
+        currentItems = items;
+        console.log(currentItems);
+        
         if (!createdTaks) {
             items.addTask("a", "b");
             createdTaks = true;
@@ -69,7 +72,6 @@ test("should add an items to the store, delete item and rerun the effect", () =>
     expect(effect).toHaveBeenCalledTimes(3);
 
     //Checking with what argument function 'effect' was executed
-    expect(effect).toHaveBeenCalledWith(
-        expect.objectContaining({ tasks: [{ title: "a", state: "b" }] })
-    );
+    expect(currentItems.tasks).toEqual([])
+    
 });
