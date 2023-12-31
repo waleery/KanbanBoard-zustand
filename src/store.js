@@ -5,8 +5,9 @@ import { devtools, persist } from "zustand/middleware";
 const store = (set) => ({
     tasks: [],
     draggedTask: null,
-    
-    addTask: async(title, state) =>
+    taskInOngoing:0,
+    //addTask: async(title, state) =>
+    addTask: (title, state) =>
         // false/true tells zustand to just manipulate or replace object in store
         set(
             (store) => ({ tasks: [...store.tasks, { title, state }] }),
@@ -88,3 +89,11 @@ export const useStore = createWithEqualityFn(
 
 //When we need custom compare function then second argument is 'Object.is'
 //export const useStore = createWithEqualityFn(store, Object.is);
+
+useStore.subscribe((newStore, prevStore) => {
+    if(newStore.tasks !== prevStore.tasks){
+        useStore.setState({
+            taskInOngoing: newStore.tasks.filter((task) => task.state === "ONGOING").length
+        })
+    }
+})
