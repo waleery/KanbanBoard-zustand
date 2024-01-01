@@ -1,6 +1,6 @@
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
-import { devtools, persist } from "zustand/middleware";
+import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 
 const store = (set) => ({
     tasks: [],
@@ -68,6 +68,7 @@ const log = (config) => (set, get, api) =>
             console.log("%c   current state", "color:#3366ff", get());
             console.log("%c   applying", "color: #ccff33", args);
             set(...args);
+        
             console.log("%c   current state", "color:#3366ff", get());
             
             // console.log(set, "set");
@@ -82,7 +83,7 @@ const log = (config) => (set, get, api) =>
 
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
-    log(persist(devtools(store, shallow), { name: "store" }))
+    log(subscribeWithSelector(persist(devtools(store, shallow), { name: "store" })))
 
     //logWithGetData(devtools(store, shallow))
 );
@@ -90,10 +91,23 @@ export const useStore = createWithEqualityFn(
 //When we need custom compare function then second argument is 'Object.is'
 //export const useStore = createWithEqualityFn(store, Object.is);
 
-useStore.subscribe((newStore, prevStore) => {
-    if(newStore.tasks !== prevStore.tasks){
+//subscribe with selector => need to use 'subscribeWithSelector' when store is created
+useStore.subscribe(
+    (store => store.tasks),
+    (newTasks, prevTasks) => {
         useStore.setState({
-            taskInOngoing: newStore.tasks.filter((task) => task.state === "ONGOING").length
+            taskInOngoing: newTasks.filter((task) => task.state === "ONGOING").length
         })
-    }
+    
 })
+
+
+//subscribe without selector
+
+// useStore.subscribe((newStore, prevStore) => {
+//     if(newStore.tasks !== prevStore.tasks){
+//         useStore.setState({
+//             taskInOngoing: newStore.tasks.filter((task) => task.state === "ONGOING").length
+//         })
+//     }
+// })
