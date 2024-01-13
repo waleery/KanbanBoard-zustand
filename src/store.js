@@ -6,7 +6,9 @@ import { uniqueId } from "lodash";
 const store = (set) => ({
     tasks: [],
     draggedTask: null,
+    taskInPlanned: 0,
     taskInOngoing: 0,
+    taskInDone: 0,
     //addTask: async(title, state) =>
     addTask: (title, state) =>
         // false/true tells zustand to just manipulate or replace object in store
@@ -87,7 +89,9 @@ const log = (config) => (set, get, api) =>
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
     log(
+        subscribeWithSelector(
             persist(devtools(store, shallow), { name: "store" })
+        )
     )
 
     //logWithGetData(devtools(store, shallow))
@@ -101,7 +105,11 @@ useStore.subscribe(
     (store) => store.tasks,
     (newTasks, prevTasks) => {
         useStore.setState({
+            taskInPlanned: newTasks.filter((task) => task.state === "PLANNED")
+                .length,
             taskInOngoing: newTasks.filter((task) => task.state === "ONGOING")
+                .length,
+            taskInDone: newTasks.filter((task) => task.state === "DONE")
                 .length,
         });
     }
