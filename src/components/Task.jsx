@@ -14,7 +14,6 @@ const Task = ({ id }) => {
     return (
         <div className="task" draggable onDragStart={()=> setDraggedTask(task.id)}>
             <div>{task.title}</div>
-            <div>{task.id}</div>
             <div className="bottomWrapper">
                 <img
                     src={trashIcon}
