@@ -43,6 +43,17 @@ const Column = ({ state }) => {
         //     return true
         // }
     );
+
+    //it might be done easier
+    const taskCount = useStore(
+        (store) =>
+            store[
+                `taskIn${
+                    state.charAt(0).toUpperCase() + state.slice(1).toLowerCase()
+                }`
+            ] || 0
+    );
+
     const addTask = useStore((store) => store.addTask);
     const setDraggedTask = useStore((store) => store.setDraggedTask);
     const draggedTask = useStore((store) => store.draggedTask);
@@ -66,7 +77,11 @@ const Column = ({ state }) => {
             }}
         >
             <div className="titleWrapper">
-                <p>{state}</p>
+                <div>
+                    <span>{taskCount + " "}</span>
+                    <span>{state}</span>
+                </div>
+
                 <button onClick={() => setOpenModal(true)}>Add</button>
             </div>
             {tasks.map((task) => (
