@@ -91,18 +91,27 @@ const Column = ({ state }) => {
                 <div className="modal">
                     <div className="modalContent">
                         <input
+                            className="modalInput"
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                         />
-                        <button
-                            onClick={() => {
-                                addTask(text, state);
-                                setText("");
-                                setOpenModal(false);
-                            }}
-                        >
-                            Submit
-                        </button>
+                            <button
+                                onClick={() => {
+                                    addTask(text, state);
+                                    setText("");
+                                    setOpenModal(false);
+                                }}
+                            >
+                                Submit
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setText("");
+                                    setOpenModal(false);
+                                }}
+                            >
+                                Cancel
+                            </button>
                     </div>
                 </div>
             )}

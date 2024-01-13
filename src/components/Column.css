@@ -21,7 +21,7 @@
     margin-bottom: 0.5rem;
 }
 
-.titleWrapper button {
+.titleWrapper button, .modalContent button {
     all:unset;
     color: black;
     background: white;
@@ -29,6 +29,10 @@
     border-radius: 4px;
     height: fit-content;
     cursor: pointer;
+}
+
+.modalContent button {
+    border: 1px solid black;
 }
 
 .titleWrapper button:hover {
@@ -49,7 +53,7 @@
     position: absolute;
     z-index: 1;
     padding: 1rem;
-    height: 5rem;
+    height: fit-content;
     width: 20rem;
     top:50%;
     left:50%;
@@ -58,4 +62,19 @@
     justify-content: center;
     align-items: center;
     border-radius: 4px;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.modalContent > input{
+    background-color: #eee;
+    border-radius: 5px;
+    height: 2rem;
+    font-size: medium;
+}
+.modalInput{
+    width: 80%;
+}
+.modalButtons{
+    display: flex;
 }
