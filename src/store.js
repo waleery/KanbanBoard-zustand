@@ -1,16 +1,19 @@
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
+import { uniqueId } from "lodash";
 
 const store = (set) => ({
     tasks: [],
     draggedTask: null,
-    taskInOngoing:0,
+    taskInOngoing: 0,
     //addTask: async(title, state) =>
     addTask: (title, state) =>
         // false/true tells zustand to just manipulate or replace object in store
         set(
-            (store) => ({ tasks: [...store.tasks, { title, state }] }),
+            (store) => ({
+                tasks: [...store.tasks, { id: uniqueId(), title, state }],
+            }),
             false,
             "addTask"
         ),
@@ -64,13 +67,13 @@ const store = (set) => ({
 const log = (config) => (set, get, api) =>
     config(
         (...args) => {
-            console.log("%c START log middleware ------------- ", "color:red")
+            console.log("%c START log middleware ------------- ", "color:red");
             console.log("%c   current state", "color:#3366ff", get());
             console.log("%c   applying", "color: #ccff33", args);
             set(...args);
-        
+
             console.log("%c   current state", "color:#3366ff", get());
-            
+
             // console.log(set, "set");
             // console.log(get, "get");
             // console.log(api, "api");
@@ -83,7 +86,11 @@ const log = (config) => (set, get, api) =>
 
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
-    log(subscribeWithSelector(persist(devtools(store, shallow), { name: "store" })))
+    log(
+        subscribeWithSelector(
+            persist(devtools(store, shallow), { name: "store" })
+        )
+    )
 
     //logWithGetData(devtools(store, shallow))
 );
@@ -93,14 +100,14 @@ export const useStore = createWithEqualityFn(
 
 //subscribe with selector => need to use 'subscribeWithSelector' when store is created
 useStore.subscribe(
-    (store => store.tasks),
+    (store) => store.tasks,
     (newTasks, prevTasks) => {
         useStore.setState({
-            taskInOngoing: newTasks.filter((task) => task.state === "ONGOING").length
-        })
-    
-})
-
+            taskInOngoing: newTasks.filter((task) => task.state === "ONGOING")
+                .length,
+        });
+    }
+);
 
 //subscribe without selector
 
