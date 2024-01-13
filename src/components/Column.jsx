@@ -70,7 +70,7 @@ const Column = ({ state }) => {
                 <button onClick={() => setOpenModal(true)}>Add</button>
             </div>
             {tasks.map((task) => (
-                <Task title={task.title} key={task.title} />
+                <Task id={task.id} key={task.id} />
             ))}
             {openModal && (
                 <div className="modal">

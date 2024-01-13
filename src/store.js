@@ -12,27 +12,27 @@ const store = (set) => ({
         // false/true tells zustand to just manipulate or replace object in store
         set(
             (store) => ({
-                tasks: [...store.tasks, { id: uniqueId(), title, state }],
+                tasks: [...store.tasks, { id: uniqueId(Date.now().toString().slice(7) + "-"), title, state }],
             }),
             false,
             "addTask"
         ),
-    deleteTask: (title) =>
+    deleteTask: (id) =>
         set(
             (store) => ({
-                tasks: store.tasks.filter((task) => task.title !== title),
+                tasks: store.tasks.filter((task) => task.id !== id),
             }),
             false,
             "deleteTask"
         ),
-    setDraggedTask: (title) =>
-        set({ draggedTask: title }, false, "setDraggedTask"),
-    moveTask: (title, state) =>
+    setDraggedTask: (id) =>
+        set({ draggedTask: id }, false, "setDraggedTask"),
+    moveTask: (id, state) =>
         set(
             (store) => ({
                 tasks: store.tasks.map((task) => {
-                    if (task.title === title) {
-                        return { title, state };
+                    if (task.id === id) {
+                        return { ...task, state};
                     } else {
                         return task;
                     }
@@ -87,9 +87,7 @@ const log = (config) => (set, get, api) =>
 // https://github.com/pmndrs/zustand/discussions/1937
 export const useStore = createWithEqualityFn(
     log(
-        subscribeWithSelector(
             persist(devtools(store, shallow), { name: "store" })
-        )
     )
 
     //logWithGetData(devtools(store, shallow))
