@@ -16,6 +16,7 @@ const Task = ({ id }) => {
             <div>{task.title}</div>
             <div className="bottomWrapper">
                 <img
+                    className="trashIcon"
                     src={trashIcon}
                     alt="delete-icon"
                     onClick={() => deleteTask(task.id)}

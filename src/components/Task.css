@@ -11,6 +11,10 @@
     cursor:move;
 }
 
+.trashIcon {
+    cursor: pointer;
+}
+
 .bottomWrapper{
     display: flex;
     justify-content: space-between;
